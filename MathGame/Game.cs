@@ -4,6 +4,7 @@ public class Game
 {
     private int[][][] _gameLevels;
     private int _currentLevel;
+    private const int MAX_LEVEL_OF_DIFFUCULTY = 5;
     private readonly Random _rnd = new Random();
     private readonly List<Stat> _stats = new List<Stat>();
 
@@ -37,6 +38,7 @@ public class Game
                           $"- | subtraction game{Environment.NewLine}" +
                           $"* | multiplication game{Environment.NewLine}" +
                           $"/ | division game{Environment.NewLine}" +
+                          $"d | change level of difficulty{Environment.NewLine}" +
                           $"s | display stats{Environment.NewLine}" +
                           $"m | display menu{Environment.NewLine}" +
                           $"q | quite game{Environment.NewLine}");
@@ -66,6 +68,10 @@ public class Game
                 case '/':
                     Console.WriteLine($"Start division game!");
                     this.StartDivisionGame();
+                    break;
+                case 'd':
+                    this.DisplayCurrentLevelOfDifficulty();
+                    this.ChangeLevelOfDifficulty();
                     break;
                 case 's':
                     Console.WriteLine($"Your session game stats!");
@@ -176,6 +182,24 @@ public class Game
         {
             this._stats[^1].CorrectAnswers++;
         }
+    }
+
+    private void ChangeLevelOfDifficulty()
+    {
+        int level = 0;
+        do
+        {
+            Console.Write($"Enter level 1-{MAX_LEVEL_OF_DIFFUCULTY}: ");
+            level = InputNumberHandler() - 1;
+        } while (level < 0 || level >= MAX_LEVEL_OF_DIFFUCULTY);
+
+        this._currentLevel = level;
+        this.DisplayCurrentLevelOfDifficulty();
+    }
+    
+    private void DisplayCurrentLevelOfDifficulty()
+    {
+        Console.WriteLine($"Current level of difficulty: {this._currentLevel + 1}");
     }
 
     private void DisplayStats()
